@@ -1,0 +1,26 @@
+{
+  "name": "vue",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "archive": "ch5-cli archive -p crestron-vite-testing -d dist -o tsw",
+    "deploy1": "ch5-cli deploy -H 192.168.1.113 -p -t touchscreen tsw/crestron-vite-testing.ch5z",
+    "deploy2": "ch5-cli deploy -H 192.168.1.162 -p -t touchscreen tsw/crestron-vite-testing.ch5z",
+    "onestep": "npm run build && npm run archive && npm run deploy1 && npm run deploy2"
+  },
+  "dependencies": {
+    "@crestron/ch5-crcomlib": "^1.2.0",
+    "@crestron/ch5-utilities-cli": "^2.0.0",
+    "@crestron/ch5-webxpanel": "^2.0.0",
+    "eruda": "^3.0.0",
+    "vite-plugin-singlefile": "^0.13.5",
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "vite": "^4.1.4"
+  }
+}
