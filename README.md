@@ -1,29 +1,7 @@
-# vue
+# Crestron Vite Testing
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a repository to test Compatability of Vite with Crestron Touchpanels.
 
-## Recommended IDE Setup
+This simple test is tested working with a TS-1070 (tsw-xx70_2.004.0033.001.puf) and a TSW-760 (tsw-xx60_3.002.0050.001.puf).
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+Routing, Pinia and more Features still need to be tested.
