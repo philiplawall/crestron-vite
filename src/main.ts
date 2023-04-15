@@ -1,27 +1,49 @@
-import * as CrComLib from "@crestron/ch5-crcomlib/build_bundles/cjs/cr-com-lib";
+console.log("0");
+import * as CrComLib from "@crestron/ch5-crcomlib";
+console.log("1");
 import * as WebXPanel from "@crestron/ch5-webxpanel";
+console.log("2");
 import { createApp } from "vue";
+console.log("3");
 import { createPinia } from "pinia";
+console.log("4");
 import { CrestronPiniaPlugin } from "./stores/plugins/crestron";
+console.log("5");
+
+declare global {
+  interface Window {
+    CrComLib: any;
+    bridgeReceiveIntegerFromNative: any;
+    bridgeReceiveBooleanFromNative: any;
+    bridgeReceiveStringFromNative: any;
+    bridgeReceiveObjectFromNative: any;
+  }
+}
+
+window.CrComLib = CrComLib;
+console.log("6");
+window.bridgeReceiveIntegerFromNative = CrComLib.bridgeReceiveIntegerFromNative;
+console.log("7");
+window.bridgeReceiveBooleanFromNative = CrComLib.bridgeReceiveBooleanFromNative;
+console.log("8");
+window.bridgeReceiveStringFromNative = CrComLib.bridgeReceiveStringFromNative;
+console.log("9");
+window.bridgeReceiveObjectFromNative = CrComLib.bridgeReceiveObjectFromNative;
+console.log("10");
 
 import App from "./App.vue";
+console.log("11");
 
 import "./assets/main.css";
-
-import eruda from "eruda";
-eruda.init();
+console.log("12");
+// import eruda from "eruda";
+// eruda.init();
 
 const configuration = {
   host: "192.168.1.16",
   ipId: "4",
   roomId: "test",
 };
-
-window.CrComLib = CrComLib;
-window.bridgeReceiveIntegerFromNative = CrComLib.bridgeReceiveIntegerFromNative;
-window.bridgeReceiveBooleanFromNative = CrComLib.bridgeReceiveBooleanFromNative;
-window.bridgeReceiveStringFromNative = CrComLib.bridgeReceiveStringFromNative;
-window.bridgeReceiveObjectFromNative = CrComLib.bridgeReceiveObjectFromNative;
 
 if (!CrComLib.isCrestronTouchscreen()) {
   console.log(`WebXPanel version: ${WebXPanel.getVersion()}`);
@@ -30,14 +52,14 @@ if (!CrComLib.isCrestronTouchscreen()) {
 
   WebXPanel.default.addEventListener(
     WebXPanel.WebXPanelEvents.CONNECT_WS,
-    ({ detail }) => {
+    ({}) => {
       console.log(`Connected to Websocket`);
     }
   );
 
   WebXPanel.default.addEventListener(
     WebXPanel.WebXPanelEvents.DISCONNECT_WS,
-    ({ detail }) => {
+    ({}) => {
       console.log(`Disconnected from Websocket`);
     }
   );

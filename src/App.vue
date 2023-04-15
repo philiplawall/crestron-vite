@@ -1,8 +1,8 @@
-<script setup>
-import { reactive, onBeforeUnmount, onMounted, useCssModule } from "vue";
-import * as CrComLib from "@crestron/ch5-crcomlib/build_bundles/cjs/cr-com-lib";
+<script lang="ts" setup>
+import { reactive, onBeforeUnmount, onMounted } from "vue";
+import * as CrComLib from "@crestron/ch5-crcomlib";
 
-import { useCrestronStore } from "@/stores/crestron.js";
+import { useCrestronStore } from "./stores/crestron";
 
 const crestron = useCrestronStore();
 
@@ -29,11 +29,11 @@ function stopAudio() {
   audio.currentTime = 0;
 }
 
-const sigB33 = CrComLib.subscribeState("b", "33", (value) => {
+const sigB33 = CrComLib.subscribeState("b", "33", (value: boolean) => {
   state.value = value;
 });
 
-const sigB34 = CrComLib.subscribeState("b", "34", (value) => {
+const sigB34 = CrComLib.subscribeState("b", "34", (value: boolean) => {
   if (value) {
     playAudio();
   }
