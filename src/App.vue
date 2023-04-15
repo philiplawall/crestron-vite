@@ -1,10 +1,12 @@
 <script setup>
-import { reactive, onBeforeUnmount, onMounted } from "vue";
+import { reactive, onBeforeUnmount, onMounted, useCssModule } from "vue";
 import * as CrComLib from "@crestron/ch5-crcomlib/build_bundles/cjs/cr-com-lib";
 
-function buttonEvent() {
-  console.log("button clicked");
+import { useCrestronStore } from "@/stores/crestron.js";
 
+const crestron = useCrestronStore();
+
+function buttonEvent() {
   CrComLib.publishEvent("b", "33", true);
   CrComLib.publishEvent("b", "33", false);
 }
@@ -16,13 +18,30 @@ const w = reactive({
   pixelRatio: 0,
 });
 
-const unsub = CrComLib.subscribeState("b", "33", (value) => {
-  console.log(`toggle(33) second selected(${value})`);
+const audio = new Audio("./pleaseConnect.mp3");
+
+function playAudio() {
+  audio.play();
+}
+
+function stopAudio() {
+  audio.pause();
+  audio.currentTime = 0;
+}
+
+const sigB33 = CrComLib.subscribeState("b", "33", (value) => {
   state.value = value;
 });
 
+const sigB34 = CrComLib.subscribeState("b", "34", (value) => {
+  if (value) {
+    playAudio();
+  }
+});
+
 onBeforeUnmount(() => {
-  CrComLib.unsubscribeState("n", "33", unsub);
+  CrComLib.unsubscribeState("n", "33", sigB33);
+  CrComLib.unsubscribeState("n", "34", sigB34);
 });
 
 onMounted(() => {
@@ -46,6 +65,11 @@ onMounted(() => {
     <div>
       {{ w }}
     </div>
+    <div>
+      <button @click="playAudio">Play</button>
+      <button @click="stopAudio">Stop</button>
+    </div>
+    <div>{{ crestron.isOnline }}</div>
   </div>
 </template>
 

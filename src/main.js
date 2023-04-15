@@ -1,19 +1,21 @@
 import * as CrComLib from "@crestron/ch5-crcomlib/build_bundles/cjs/cr-com-lib";
 import * as WebXPanel from "@crestron/ch5-webxpanel";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { CrestronPiniaPlugin } from "./stores/plugins/crestron";
 
 import App from "./App.vue";
 
 import "./assets/main.css";
+
 import eruda from "eruda";
+eruda.init();
 
 const configuration = {
   host: "192.168.1.16",
   ipId: "4",
   roomId: "test",
 };
-
-eruda.init();
 
 window.CrComLib = CrComLib;
 window.bridgeReceiveIntegerFromNative = CrComLib.bridgeReceiveIntegerFromNative;
@@ -112,6 +114,10 @@ console.log(
 //   console.log(`toggle(33) selected(${value})`);
 // });
 
+const pinia = createPinia();
+pinia.use(CrestronPiniaPlugin);
+
 const app = createApp(App);
 
+app.use(pinia);
 app.mount("#app");
