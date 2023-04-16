@@ -13,9 +13,9 @@
     "onestep": "npm run build && npm run ad"
   },
   "dependencies": {
-    "@crestron/ch5-crcomlib": "file:../../../OneDrive/Dokumente/CH5ComponentLibrary",
     "@crestron/ch5-utilities-cli": "^2.0.0",
     "@crestron/ch5-webxpanel": "^2.0.0",
+    "ch5-crcomlib-lite": "file:../../../OneDrive/Dokumente/ch5-crcomlib-lite",
     "eruda": "^3.0.0",
     "pinia": "^2.0.34",
     "typescript": "^5.0.4",

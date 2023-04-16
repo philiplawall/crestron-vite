@@ -1,5 +1,6 @@
 console.log("0");
-import * as CrComLib from "@crestron/ch5-crcomlib";
+// import * as CrComLib from "@crestron/ch5-crcomlib";
+import * as CrComLib from "ch5-crcomlib-lite";
 console.log("1");
 import * as WebXPanel from "@crestron/ch5-webxpanel";
 console.log("2");
@@ -94,7 +95,7 @@ if (!CrComLib.isCrestronTouchscreen()) {
     }
   );
 
-  function updateDialogLicenseInfo(detail) {
+  function updateDialogLicenseInfo(detail: any) {
     const controlSystemSupportsLicense = detail.controlSystemSupportsLicense; // boolean
     const licenseApplied = detail.licenseApplied; // optional boolean
     const licenseDaysRemaining = detail.licenseDaysRemaining; // optional number

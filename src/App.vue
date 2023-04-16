@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, onMounted } from "vue";
-import * as CrComLib from "@crestron/ch5-crcomlib";
+// import * as CrComLib from "@crestron/ch5-crcomlib";
+
+import * as CrComLib from "ch5-crcomlib-lite";
 
 import { useCrestronStore } from "./stores/crestron";
 
@@ -11,7 +13,11 @@ function buttonEvent() {
   CrComLib.publishEvent("b", "33", false);
 }
 
-const state = reactive({ value: false });
+function setButton(button: number, state: boolean) {
+  CrComLib.publishEvent("b", button.toString(), state);
+}
+
+const state = reactive({ value: false, "30": false, "31": false, "32": false });
 const w = reactive({
   width: 0,
   height: 0,
@@ -29,6 +35,18 @@ function stopAudio() {
   audio.currentTime = 0;
 }
 
+const sigB30 = CrComLib.subscribeState("b", "30", (value: boolean) => {
+  state["30"] = value;
+});
+
+const sigB31 = CrComLib.subscribeState("b", "31", (value: boolean) => {
+  state["31"] = value;
+});
+
+const sigB32 = CrComLib.subscribeState("b", "32", (value: boolean) => {
+  state["32"] = value;
+});
+
 const sigB33 = CrComLib.subscribeState("b", "33", (value: boolean) => {
   state.value = value;
 });
@@ -40,6 +58,10 @@ const sigB34 = CrComLib.subscribeState("b", "34", (value: boolean) => {
 });
 
 onBeforeUnmount(() => {
+  CrComLib.unsubscribeState("n", "30", sigB30);
+  CrComLib.unsubscribeState("n", "31", sigB31);
+  CrComLib.unsubscribeState("n", "32", sigB32);
+
   CrComLib.unsubscribeState("n", "33", sigB33);
   CrComLib.unsubscribeState("n", "34", sigB34);
 });
@@ -58,6 +80,46 @@ onMounted(() => {
 
 <template>
   <div>
+    <table>
+      <tr>
+        <td>
+          <button
+            @mousedown="setButton(30, true)"
+            @mouseup="setButton(30, false)"
+            @touchstart="setButton(30, true)"
+            @touchend="setButton(30, false)"
+          >
+            Button 30
+          </button>
+        </td>
+        <td>
+          <button
+            @mousedown="setButton(31, true)"
+            @mouseup="setButton(31, false)"
+            @touchstart="setButton(31, true)"
+            @touchend="setButton(31, false)"
+          >
+            Button 31
+          </button>
+        </td>
+        <td>
+          <button
+            @mousedown="setButton(32, true)"
+            @mouseup="setButton(32, false)"
+            @touchstart="setButton(32, true)"
+            @touchend="setButton(32, false)"
+          >
+            Button 32
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ state[30] }}</td>
+        <td>{{ state[31] }}</td>
+        <td>{{ state[32] }}</td>
+      </tr>
+    </table>
+
     <div>
       <button @click="buttonEvent">Join 33</button>
       {{ state.value }}
